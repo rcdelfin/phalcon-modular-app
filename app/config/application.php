@@ -9,4 +9,9 @@ return new \Phalcon\Config(array(
         'name'     => 'phalcon-modular-app',
         'charset'  => 'utf8',
     ),
+    'view'     => array(
+        'layoutsDir'    => '/../../../layouts/',
+        'partialsDir'   => '../../../partials/',
+        'defaultLayout' => 'main',
+    ),
 ));

@@ -14,6 +14,7 @@ class Helper
     {
         $helper = new \Blog\Helper\Announce();
         return $helper($incomeString, $num);
+
     }
 
 }

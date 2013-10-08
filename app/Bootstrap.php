@@ -50,11 +50,19 @@ class Bootstrap
         $router->setDefaultController('index');
         $router->setDefaultAction('index');
 
+        // Default router
+        $router->add('/:module/:controller/:action/:params', array(
+            'module'     => 1,
+            'controller' => 2,
+            'action'     => 3,
+            'params'     => 4
+        ))->setName('default');
+
         foreach ($application->getModules() as $module) {
-            $className = str_replace('Module', 'Routes', $module['className']);
-            if (class_exists($className)) {
-                $class  = new $className();
-                $router = $class->add($router);
+            $routesClassName = str_replace('Module', 'Routes', $module['className']);
+            if (class_exists($routesClassName)) {
+                $routesClass = new $routesClassName();
+                $router      = $routesClass->add($router);
             }
         }
         $di->set('router', $router);
@@ -69,8 +77,8 @@ class Bootstrap
 
         // View
         $view = new Phalcon\Mvc\View();
-        $view->setLayoutsDir('/../../../layouts/'); // path with layouts
-        $view->setPartialsDir('../../../partials/'); // relative path with partials
+        $view->setLayoutsDir($config->view->layoutsDir); // path with layouts
+        $view->setPartialsDir($config->view->partialsDir); // relative path with partials
         $view->setLayout('main'); // default layout
         // rendering engines
         $view->registerEngines(array(
@@ -81,7 +89,7 @@ class Bootstrap
 
         // Database
         $di->set('db', function() use ($config) {
-                    return new DbAdapter(array(
+                    return new Phalcon\Db\Adapter\Pdo\Mysql(array(
                         'host'     => $config->database->host,
                         'username' => $config->database->username,
                         'password' => $config->database->password,
@@ -91,7 +99,7 @@ class Bootstrap
                 });
 
         // Cache
-        $cache = new Phalcon\Cache\Backend\Memcache(
+        $cache          = new Phalcon\Cache\Backend\Memcache(
                 new Phalcon\Cache\Frontend\Data(array(
             "lifetime" => 60,
             "prefix"   => 'phalcon-modular-app',
@@ -102,6 +110,7 @@ class Bootstrap
         $di->set('cache', $cache);
         // $di->set('viewCache', $cache); // optional
         $di->set('modelsCache', $cache); //
+        //
         // ModelsMetadata
         $modelsMetadata = new Phalcon\Mvc\Model\Metadata\Memory();
         /**

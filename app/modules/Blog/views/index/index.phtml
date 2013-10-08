@@ -1,0 +1,6 @@
+<h1>Blog posts</h1>
+<ul>
+    {% for post in posts %}
+        <li>{{ link_to([ 'for' : 'blog/post', 'slug' : post.slug ], post.title) }}</li>
+    {% endfor %}
+</ul>

@@ -11,13 +11,13 @@ namespace Blog\Entity;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 
-class News extends Model
+class Post extends Model
 {
 
     public $id;
+    public $slug;
     public $title;
     public $text;
-    public $slug;
     public $created_at;
     public $updated_at;
 
@@ -45,7 +45,7 @@ class News extends Model
 
     public function validate()
     {
-        
+
     }
 
     public function afterValidation()
