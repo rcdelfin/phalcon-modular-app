@@ -1,6 +1,7 @@
 phalcon-modular-app
 ===================
 
-Phalcon PHP Framework with Modular structure
+Phalcon PHP Framework Application
+with Modular structure
 
 Designed by Oleksandr Torosh
