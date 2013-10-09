@@ -27,7 +27,9 @@ class Routes
             'action' => 'post',
         ))->setName('blog/post');
 
-        return $router->mount($blog);
+        $router->mount($blog);
+
+        return $router;
 
     }
 

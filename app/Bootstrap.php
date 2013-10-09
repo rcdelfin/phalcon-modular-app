@@ -99,7 +99,7 @@ class Bootstrap
                 });
 
         // Cache
-        $cache          = new Phalcon\Cache\Backend\Memcache(
+        $cache = new Phalcon\Cache\Backend\Memcache(
                 new Phalcon\Cache\Frontend\Data(array(
             "lifetime" => 60,
             "prefix"   => 'phalcon-modular-app',
@@ -108,19 +108,18 @@ class Bootstrap
             "port" => "11211"
         ));
         $di->set('cache', $cache);
-        // $di->set('viewCache', $cache); // optional
+        $di->set('viewCache', $cache); // optional
         $di->set('modelsCache', $cache); //
-        //
         // ModelsMetadata
-        $modelsMetadata = new Phalcon\Mvc\Model\Metadata\Memory();
-        /**
-         * You can use APC for production
-         *
-         * $modelsMetadata = new Phalcon\Mvc\Model\MetaData\Apc(array(
-         *     "lifetime" => 60,
-         *     "prefix"   => "phalcon-modular-app"
-         * ));
-         */
+        if (APPLICATION_ENV == 'development') {
+            $modelsMetadata = new Phalcon\Mvc\Model\Metadata\Memory();
+        } else {
+            $modelsMetadata = new Phalcon\Mvc\Model\MetaData\Apc(array(
+                "lifetime" => 60,
+                "prefix"   => "phalcon-modular-app"
+            ));
+        }
+
         $di->set('modelsMetadata', $modelsMetadata);
 
         // Session
@@ -143,6 +142,64 @@ class Bootstrap
         // Helpers
         // Your own helpers. Using: $this->helper->myHelper();
         $di->set('helper', new Application\Mvc\Helper());
+
+        // Assets
+        $assetsManager = new Phalcon\Assets\Manager();
+
+        $assetsManager->collection('js')
+                ->addFilter(new Phalcon\Assets\Filters\Jsmin())
+                ->addJs('public/js/main.js')
+                ->setTargetPath('public/assets/output.js')
+                ->setTargetUri('assets/output.js')
+                ->join(true);
+
+        $assetsManager->collection('css')
+                ->addFilter(new Phalcon\Assets\Filters\Cssmin())
+                ->addCss('public/css/main.css')
+                ->setTargetPath('public/assets/output.css')
+                ->setTargetUri('assets/output.css')
+                ->join(true);
+
+        $di->set('assets', $assetsManager);
+
+        $dispatcher = new \Phalcon\Mvc\Dispatcher();
+
+        $eventsManager = new \Phalcon\Events\Manager();
+        $eventsManager->attach("dispatch", function($event, $dispatcher, $exception) use ($di) {
+
+                    // LongActionName => long-action-name
+                    $actionName = Phalcon\Text::camelize($dispatcher->getActionName());
+                    $dispatcher->setActionName($actionName);
+
+                    // Errors. Обработка ошибок
+                    if ($event->getType() == 'beforeNotFoundAction') {
+                        $dispatcher->forward(array(
+                            'module'     => 'index',
+                            'controller' => 'error',
+                            'action'     => 'notFound'
+                        ));
+                        return false;
+                    }
+
+                    //Альтернативный путь. Когда контроллер или екшн не найдены
+                    if ($event->getType() == 'beforeException') {
+                        switch ($exception->getCode()) {
+                            case \Phalcon\Dispatcher::EXCEPTION_HANDLER_NOT_FOUND:
+                            case \Phalcon\Dispatcher::EXCEPTION_ACTION_NOT_FOUND:
+                                $dispatcher->forward(array(
+                                    'module'     => 'index',
+                                    'controller' => 'error',
+                                    'action'     => 'notFound'
+                                ));
+                                return false;
+                        }
+                    }
+                });
+
+        //Bind the EventsManager to the dispatcher
+        $dispatcher->setEventsManager($eventsManager);
+
+        $di->setShared('dispatcher', $dispatcher);
 
         // Handle the request
         $application->setDI($di);

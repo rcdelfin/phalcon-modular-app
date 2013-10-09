@@ -22,20 +22,19 @@ class IndexController extends Controller
 
     public function postAction($slug)
     {
-        echo $slug, "post"; exit;
-        $slug = $this->dispatcher->getParam("slug");
-
-        $entity = Post::findFirst(array("slug = '{$slug}'",
+        $post = Post::findFirst(array("slug = '{$slug}'",
                     'cache' => array(
-                        "lifetime" => 30,
-                        "key"      => "Post::findBySlug(" . md5($slug) . ")"
-        )));
-        if (!$entity) {
+                        'lifetime' => 30,
+                        'key'      => "Post::findBySlug(" . md5($slug) . ")"
+                    ))
+        );
+        if (!$post) {
             $this->response->redirect('/');
             return false;
         }
 
-        $this->view->entity = $entity;
+        $this->view->post = $post;
+        $this->tag->prependTitle($post->getTitle());
 
     }
 
