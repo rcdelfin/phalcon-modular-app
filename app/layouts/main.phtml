@@ -5,11 +5,19 @@
         <meta charset="utf-8">
         {{ get_title() }}
         <?php $this->assets->outputCss('css') ?>
+        <?php $this->assets->outputCss('cssMin') ?>
         <?php $this->assets->outputJs('js') ?>
     </head>
     <body>
-        <div class="content">
+        <header class="container">
+            {{ partial("main/header") }}
+        </header>
+        <div class="container">
             {{ content() }}
         </div>
+        <footer class="container">
+            {{ partial("main/footer") }}
+        </footer>
+        <?php $this->assets->outputJs('jsMin') ?>
     </body>
 </html>

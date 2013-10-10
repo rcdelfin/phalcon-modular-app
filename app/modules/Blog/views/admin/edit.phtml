@@ -1,0 +1,11 @@
+<h1>{{ title }}</h1>
+
+<p><a href="{{ url(['for':'default','module':'blog','controller':'admin','action':'index']) }}" class="btn btn-default">&larr; Back</a></p>
+
+<form method="post" action="">
+
+    <?php echo $form->renderDecorated('title'); ?>
+    <?php echo $form->renderDecorated('text'); ?>
+    <?php echo $form->renderDecorated('submit'); ?>
+
+</form>

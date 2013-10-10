@@ -34,7 +34,7 @@ class IndexController extends Controller
         }
 
         $this->view->post = $post;
-        $this->tag->prependTitle($post->getTitle());
+        $this->tag->prependTitle($post->getTitle() . ' - ');
 
     }
 

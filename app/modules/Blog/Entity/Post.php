@@ -10,6 +10,7 @@ namespace Blog\Entity;
 
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
+use Application\I18n\Transliterator;
 
 class Post extends Model
 {
@@ -127,6 +128,11 @@ class Post extends Model
     {
         return $this->updated_at;
 
+    }
+
+    public function getCharsCount()
+    {
+        return mb_strlen(strip_tags($this->getText(), 'utf-8'));
     }
 
 }
