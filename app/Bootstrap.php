@@ -147,6 +147,10 @@ class Bootstrap
         $assetsManager = new Phalcon\Assets\Manager();
 
         $assetsManager->collection('js')
+                ->addJs('http://code.jquery.com/jquery-2.0.3.min.js', false)
+                ->addJs('vendor/bootstrap/js/bootstrap.min.js');
+
+        $assetsManager->collection('jsMin')
                 ->addFilter(new Phalcon\Assets\Filters\Jsmin())
                 ->addJs('public/js/main.js')
                 ->setTargetPath('public/assets/output.js')
@@ -154,11 +158,16 @@ class Bootstrap
                 ->join(true);
 
         $assetsManager->collection('css')
+                ->addCss('vendor/bootstrap/css/bootstrap.min.css');
+
+        $assetsManager->collection('cssMin')
                 ->addFilter(new Phalcon\Assets\Filters\Cssmin())
                 ->addCss('public/css/main.css')
                 ->setTargetPath('public/assets/output.css')
                 ->setTargetUri('assets/output.css')
                 ->join(true);
+
+
 
         $di->set('assets', $assetsManager);
 
@@ -166,10 +175,6 @@ class Bootstrap
 
         $eventsManager = new \Phalcon\Events\Manager();
         $eventsManager->attach("dispatch", function($event, $dispatcher, $exception) use ($di) {
-
-                    // LongActionName => long-action-name
-                    $actionName = Phalcon\Text::camelize($dispatcher->getActionName());
-                    $dispatcher->setActionName($actionName);
 
                     // Errors. Обработка ошибок
                     if ($event->getType() == 'beforeNotFoundAction') {

@@ -1,6 +1,12 @@
-body {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    line-height: 150%;
-    color: #242424;
+.copyright {
+    font-style: italic;
+    font-family: Georgia;
+    font-size: 14px;
+    color: #999999;
+}
+
+footer {
+    margin-top: 20px;
+    padding: 20px 0;
+    border-top: 1px solid whitesmoke;
 }

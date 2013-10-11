@@ -10,7 +10,7 @@ return new \Phalcon\Config(array(
         'charset'  => 'utf8',
     ),
     'view'     => array(
-        'layoutsDir'    => '/../../../layouts/',
+        'layoutsDir'    => '../../../layouts/',
         'partialsDir'   => '../../../partials/',
         'defaultLayout' => 'main',
     ),

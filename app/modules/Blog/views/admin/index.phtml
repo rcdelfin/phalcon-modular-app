@@ -1,0 +1,26 @@
+<h1>{{ title }}</h1>
+
+<p>
+    <a href="{{ url([ 'for' : 'default', 'module' : 'blog', 'controller' : 'admin', 'action' : 'add' ]) }}" class="btn btn-success">Add post</a>
+</p>
+
+{% if posts %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Chars count</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+        <tr>
+            <td>{{ post.id }}</td>
+            <td>{{ link_to([ 'for' : 'default', 'module' : 'blog', 'controller' : 'admin', 'action' : 'edit', 'params' : post.id ], post.getTitle() ) }}</td>
+            <td>{{ post.getCharsCount() }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
