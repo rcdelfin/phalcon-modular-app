@@ -16,6 +16,7 @@ class IndexController extends Controller
     {
         $posts = Post::find(array('sort' => array('created_at' => 'desc')));
 
+        $this->tag->prependTitle('Blog');
         $this->view->posts = $posts;
 
     }

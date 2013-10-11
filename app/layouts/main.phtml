@@ -1,4 +1,4 @@
-<?php $this->tag->appendTitle('Phalcon modular application');
+<?php $this->tag->appendTitle(' - Phalcon modular application');
 ?><!DOCTYPE html>
 <html>
     <head>
