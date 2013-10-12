@@ -44,7 +44,7 @@ class Bootstrap
         ));
 
         // Routing
-        $router = new Phalcon\Mvc\Router(true);
+        $router = new Phalcon\Mvc\Router();
 
         $router->setDefaultModule('index');
         $router->setDefaultController('index');
