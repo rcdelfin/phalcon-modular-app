@@ -80,10 +80,12 @@ class Bootstrap
         $view->setLayoutsDir($config->view->layoutsDir); // path with layouts
         $view->setPartialsDir($config->view->partialsDir); // relative path with partials
         $view->setLayout('main'); // default layout
-        // rendering engines
         $view->registerEngines(array(
-            ".phtml" => 'Phalcon\Mvc\View\Engine\Volt', // you can use .volt files extension
-                //".phtml" => 'Phalcon\Mvc\View\Engine\Php', // default php rendering engine
+            ".phtml" => function($view, $di) {
+                $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
+                $volt->setOptions(array('compiledPath' => __DIR__ . '/cache/volt/'));
+                return $volt;
+            }
         ));
         $di->set('view', $view);
 
@@ -147,22 +149,18 @@ class Bootstrap
         $assetsManager = new Phalcon\Assets\Manager();
 
         $assetsManager->collection('js')
-                ->addJs('http://code.jquery.com/jquery-2.0.3.min.js', false)
-                ->addJs('vendor/bootstrap/js/bootstrap.min.js');
+                ->addJs('http://code.jquery.com/jquery-2.0.3.min.js', false);
 
         $assetsManager->collection('jsMin')
                 ->addFilter(new Phalcon\Assets\Filters\Jsmin())
-                ->addJs('public/js/main.js')
                 ->setTargetPath('public/assets/output.js')
                 ->setTargetUri('assets/output.js')
                 ->join(true);
 
-        $assetsManager->collection('css')
-                ->addCss('vendor/bootstrap/css/bootstrap.min.css');
+        $assetsManager->collection('css');
 
         $assetsManager->collection('cssMin')
                 ->addFilter(new Phalcon\Assets\Filters\Cssmin())
-                ->addCss('public/css/main.css')
                 ->setTargetPath('public/assets/output.css')
                 ->setTargetUri('assets/output.css')
                 ->join(true);

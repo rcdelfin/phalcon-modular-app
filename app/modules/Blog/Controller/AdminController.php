@@ -13,6 +13,11 @@ use Blog\Form\PostForm;
 class AdminController extends Controller
 {
 
+    public function initialize()
+    {
+        $this->view->setLayout('admin');
+    }
+
     public function indexAction()
     {
         $this->view->posts = Post::find(array('sort' => array('id'               => 'desc')));
