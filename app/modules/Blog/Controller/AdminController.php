@@ -15,7 +15,7 @@ class AdminController extends Controller
 
     public function indexAction()
     {
-        $this->view->posts = Post::find(array('sort' => array('id'               => 'desc')));
+        $this->view->posts = Post::find(array('sort' => array('id' => 'desc')));
         $this->view->title = 'Blog posts list';
 
     }
