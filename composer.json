@@ -1,0 +1,6 @@
+{
+    "name": "phalcon-modular-app",
+    "require": {
+        "zendframework/zendframework": "2.*"
+    }
+}
