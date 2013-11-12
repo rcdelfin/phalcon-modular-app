@@ -6,5 +6,8 @@ with Modular structure
 
 Designed by Oleksandr Torosh
 
-Required "Phalcon 1.2.3"
-Installation http://phalconphp.com/en/download
+Required
+--------
+PHP 5.4 +
+php-intl 2.0 +
+Phalcon 1.2.3 +
