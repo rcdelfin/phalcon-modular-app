@@ -1,6 +1,10 @@
 phalcon-modular-app
 ===================
 
+The next step of evolution of this application is [__phalcon-skeleton__](https://github.com/oleksandr-torosh/phalcon-skeleton)
+
+__This repo is deprecated.__
+
 Phalcon PHP Framework Application
 with Modular structure
 
