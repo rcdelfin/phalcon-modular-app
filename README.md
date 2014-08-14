@@ -1,7 +1,7 @@
 phalcon-modular-app
 ===================
 
-The next step of evolution of this application is [__Yona CMS__](https://github.com/oleksandr-torosh/yona-cms)
+The next step of evolution of this application is [__Yona CMS__](https://github.com/oleksandr-torosh/yona-cms) based on Phalcon
 
 __This repo is deprecated.__
 
